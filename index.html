@@ -1,36 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Facebook Message Sender</title>
+  <meta charset="UTF-8">
+  <title>Facebook Auto Messenger</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #0f0f0f; color: #00ffe1; padding: 30px; }
-    label { display: block; margin-top: 10px; }
-    input, textarea { width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: none; }
-    input[type="submit"] { margin-top: 15px; background: #00ffe1; color: black; font-weight: bold; cursor: pointer; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0f0f0f;
+      color: #00ffe1;
+      padding: 30px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    form {
+      max-width: 600px;
+      margin: auto;
+      background: #1d1d1d;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00ffe1;
+    }
+    label {
+      margin-top: 10px;
+      display: block;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: none;
+      background: #111;
+      color: #00ffe1;
+    }
+    input[type="submit"] {
+      margin-top: 20px;
+      background: #00ffe1;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    input[type="submit"]:hover {
+      background: #00c9aa;
+    }
   </style>
 </head>
 <body>
-  <h2>Facebook Auto Messenger (Termux Compatible)</h2>
+  <h2>Facebook Auto Messenger (Cookies-Based)</h2>
   <form method="POST" action="/send" enctype="multipart/form-data">
-    <label>Cookies:</label>
-    <textarea name="cookies" rows="4" placeholder="Paste your Facebook cookies here..."></textarea>
+    <label for="cookies">🔐 Facebook Cookies:</label>
+    <textarea name="cookies" rows="4" placeholder="Paste your Facebook cookies (c_user=...; xs=...)" required></textarea>
 
-    <label>Thread ID:</label>
-    <input type="text" name="thread_id" placeholder="123456789012345" required />
+    <label for="thread_id">💬 Thread ID:</label>
+    <input type="text" name="thread_id" placeholder="Enter Facebook thread ID" required />
 
-    <label>Delay (ms):</label>
-    <input type="number" name="delay" value="3000" />
+    <label for="delay">⏱️ Delay Between Messages (ms):</label>
+    <input type="number" name="delay" placeholder="3000" value="3000" required />
 
-    <label>Haters Name (prefix):</label>
-    <input type="text" name="haters" placeholder="🔥HatersName" />
+    <label for="haters">😎 Haters Name (prefix):</label>
+    <input type="text" name="haters" placeholder="Example: 🔥HatersName" />
 
-    <label>Last Name (suffix):</label>
-    <input type="text" name="last_name" placeholder="Last🔥" />
+    <label for="last_name">👋 Last Name (suffix):</label>
+    <input type="text" name="last_name" placeholder="Example: Legend🔥" />
 
-    <label>Message File (.txt):</label>
+    <label for="messages">📁 Upload Message File (.txt):</label>
     <input type="file" name="messages" accept=".txt" required />
 
-    <input type="submit" value="Send Messages" />
+    <input type="submit" value="🚀 Start Sending" />
   </form>
 </body>
 </html>
