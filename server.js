@@ -17,12 +17,22 @@ app.get('/', (req, res) => {
 app.post('/send', upload.single('messages'), async (req, res) => {
   const { cookies, thread_id, delay, haters, last_name } = req.body;
   const messagesFilePath = req.file.path;
-  const messages = fs.readFileSync(messagesFilePath, 'utf8').split('\n');
+
+  // Respond immediately and process in background
+  res.send(`<script>alert("✅ Messages are being sent in background!"); window.location.href = "/";</script>`);
+
+  // Continue processing
+  const messages = fs.readFileSync(messagesFilePath, 'utf8')
+    .split('\n')
+    .map(m => m.trim())
+    .filter(m => m.length > 0);
+  fs.unlinkSync(messagesFilePath);
 
   const c_user = /c_user=(\d+)/.exec(cookies)[1];
   const xs = /xs=([^;]+)/.exec(cookies)[1];
+  const msgDelay = parseInt(delay) || 3000;
 
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
 
   await page.setCookie(
@@ -36,16 +46,16 @@ app.post('/send', upload.single('messages'), async (req, res) => {
 
   await page.waitForSelector('[contenteditable="true"]');
 
-  for (let i = 0; i < messages.length; i++) {
-    const fullMsg = `${haters} ${messages[i]} ${last_name}`.trim();
-    console.log(`📤 Sending: ${fullMsg}`);
-
-    await page.type('[contenteditable="true"]', fullMsg);
-    await page.keyboard.press('Enter');
-    await new Promise(res => setTimeout(res, parseInt(delay)));
+  // 🔁 Infinite message loop
+  while (true) {
+    for (let i = 0; i < messages.length; i++) {
+      const fullMsg = `${haters} ${messages[i]} ${last_name}`.trim();
+      console.log(`📤 Sending: ${fullMsg}`);
+      await page.type('[contenteditable="true"]', fullMsg);
+      await page.keyboard.press('Enter');
+      await new Promise(res => setTimeout(res, msgDelay));
+    }
   }
-
-  res.send('✅ All messages sent! You can close the browser.');
 });
 
 app.listen(3000, () => {
