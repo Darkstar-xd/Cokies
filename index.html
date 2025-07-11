@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Facebook Message Sender</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #0f0f0f; color: #00ffe1; padding: 30px; }
+    label { display: block; margin-top: 10px; }
+    input, textarea { width: 100%; padding: 8px; margin-top: 5px; border-radius: 5px; border: none; }
+    input[type="submit"] { margin-top: 15px; background: #00ffe1; color: black; font-weight: bold; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>Facebook Auto Messenger (Termux Compatible)</h2>
+  <form method="POST" action="/send" enctype="multipart/form-data">
+    <label>Cookies:</label>
+    <textarea name="cookies" rows="4" placeholder="Paste your Facebook cookies here..."></textarea>
+
+    <label>Thread ID:</label>
+    <input type="text" name="thread_id" placeholder="123456789012345" required />
+
+    <label>Delay (ms):</label>
+    <input type="number" name="delay" value="3000" />
+
+    <label>Haters Name (prefix):</label>
+    <input type="text" name="haters" placeholder="🔥HatersName" />
+
+    <label>Last Name (suffix):</label>
+    <input type="text" name="last_name" placeholder="Last🔥" />
+
+    <label>Message File (.txt):</label>
+    <input type="file" name="messages" accept=".txt" required />
+
+    <input type="submit" value="Send Messages" />
+  </form>
+</body>
+</html>
